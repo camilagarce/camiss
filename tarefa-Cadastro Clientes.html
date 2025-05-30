@@ -1,149 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" type="text/css" href="estilo.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastro de Cliente</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-      max-width: 600px;
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 0.2rem;
-    }
-    .error {
-      color: red;
-      font-size: 0.9em;
-    }
-    .success {
-      color: green;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-  </style>
+  <link rel="stylesheet" href="./estilo.css">
 </head>
+
 <body>
-  <h1>Cadastro de Cliente</h1>
-  <form id="cadastroForm" novalidate>
-    <label>
-      Nome completo:
-      <input type="text" id="nome" name="nome">
-      <div class="error" id="erroNome"></div>
-    </label>
+  <div class="formulario">
+    <h1>Cadastro de Cliente</h1>
+    <form id="cadastroForm" novalidate>
+      <label>
+        <p></p>Nome completo:
+        <input type="text" id="nome" name="nome">
+        <div class="error" id="erroNome"></div>
+      </label>
 
-    <label>
-      E-mail:
-      <input type="email" id="email" name="email">
-      <div class="error" id="erroEmail"></div>
-    </label>
+      <label>
+        E-mail:
+        <input type="email" id="email" name="email">
+        <div class="error" id="erroEmail"></div>
+      </label>
 
-    <label>
-      CPF:
-      <input type="text" id="cpf" name="cpf" maxlength="11">
-      <div class="error" id="erroCpf"></div>
-    </label>
+      <label>
+        CPF:
+        <input type="text" id="cpf" name="cpf" maxlength="11">
+        <div class="error" id="erroCpf"></div>
+      </label>
 
-    <label>
-      Data de nascimento:
-      <input type="date" id="nascimento" name="nascimento">
-      <div class="error" id="erroNascimento"></div>
-    </label>
+      <div class="doisLabels">
+        <label>
+          Data de nascimento:
+          <input type="date" id="nascimento" name="nascimento">
+          <div class="error" id="erroNascimento"></div>
+        </label>
 
-    <label>
-      Telefone (opcional):
-      <input type="text" id="telefone" name="telefone" maxlength="11">
-      <div class="error" id="erroTelefone"></div>
-    </label>
+        <label>
+          Telefone (opcional):
+          <input type="text" id="telefone" name="telefone" maxlength="11">
+          <div class="error" id="erroTelefone"></div>
+        </label>
+      </div>
+      
+      <label>
+        Endereço:
+        <input type="text" id="endereco" name="endereco">
+        <div class="error" id="erroEndereco"></div>
+      </label>
 
-    <label>
-      Endereço:
-      <input type="text" id="endereco" name="endereco">
-      <div class="error" id="erroEndereco"></div>
-    </label>
+      <button type="submit">Cadastrar</button>
+      <div class="success" id="mensagemSucesso"></div>
+    </form>
+  </div>
 
-    <button type="submit">Cadastrar</button>
-    <div class="success" id="mensagemSucesso"></div>
-  </form>
+  <script src="./app.js"></script>
 
-  <script>
-    const form = document.getElementById('cadastroForm');
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault(); // Impede o envio
-
-      // Limpa mensagens anteriores
-      document.querySelectorAll('.error').forEach(el => el.textContent = '');
-      document.getElementById('mensagemSucesso').textContent = '';
-
-      // Pega os valores
-      const nome = form.nome.value.trim();
-      const email = form.email.value.trim();
-      const cpf = form.cpf.value.trim();
-      const nascimento = form.nascimento.value;
-      const telefone = form.telefone.value.trim();
-      const endereco = form.endereco.value.trim();
-
-      let valido = true;
-
-      // Validação Nome
-      if (nome.length < 5) {
-        document.getElementById('erroNome').textContent = 'Nome deve ter pelo menos 5 caracteres.';
-        valido = false;
-      }
-
-      // Validação E-mail
-      const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!regexEmail.test(email)) {
-        document.getElementById('erroEmail').textContent = 'Informe um e-mail válido.';
-        valido = false;
-      }
-
-      // Validação CPF
-      if (!/^\d{11}$/.test(cpf)) {
-        document.getElementById('erroCpf').textContent = 'CPF deve conter exatamente 11 dígitos numéricos.';
-        valido = false;
-      }
-
-      // Validação Data de Nascimento
-      const dataNasc = new Date(nascimento);
-      const hoje = new Date();
-      const idade = hoje.getFullYear() - dataNasc.getFullYear();
-      const passouAniversario = hoje.getMonth() > dataNasc.getMonth() || 
-        (hoje.getMonth() === dataNasc.getMonth() && hoje.getDate() >= dataNasc.getDate());
-
-      if (!nascimento || idade < 18 || (idade === 18 && !passouAniversario)) {
-        document.getElementById('erroNascimento').textContent = 'Cliente deve ter mais de 18 anos.';
-        valido = false;
-      }
-
-      // Validação Telefone
-      if (telefone && !/^\d{10,11}$/.test(telefone)) {
-        document.getElementById('erroTelefone').textContent = 'Telefone deve ter entre 10 e 11 dígitos.';
-        valido = false;
-      }
-
-      // Validação Endereço
-      if (endereco.length === 0) {
-        document.getElementById('erroEndereco').textContent = 'Endereço é obrigatório.';
-        valido = false;
-      }
-
-      // Se tudo estiver certo
-      if (valido) {
-        document.getElementById('mensagemSucesso').textContent = 'Cadastro realizado com sucesso!';
-        alert('Cadastro realizado com sucesso!');
-        form.reset();
-      }
-    });
-  </script>
 </body>
+
 </html>
