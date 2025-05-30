@@ -1,8 +1,11 @@
+    /* GERAL */
     * {
     	margin: 0;
     	padding: 0;
     	box-sizing: border-box;
     }
+
+    /* BODY */
 
     body {
     	font-family: Arial, sans-serif;
@@ -53,6 +56,11 @@
     	border-radius: 5px;
     	cursor: pointer;
     	transition: .2s ease;
+
+    	&:hover {
+    		background-color: #a369a0;
+    		transform: scale(.9);
+    	}
     }
 
     .doisLabels {
@@ -68,11 +76,6 @@
     	& input {
     		width: 100%;
     	}
-    }
-
-    button:hover {
-    	background-color: #a369a0;
-    	transform: scale(.9);
     }
 
     .container {
@@ -112,10 +115,10 @@
     	border-radius: 10px;
     	border: 1px solid rosybrown;
     	background-color: rgba(188, 143, 143, 0.171);
-    }
 
-    input:focus {
-    	outline: 1px solid rosybrown;
+    	&:focus {
+    		outline: 1px solid rosybrown;
+    	}
     }
 
     .error {
